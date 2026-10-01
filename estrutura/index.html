@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Illarion - Estrutura e Arquitetura do Projeto</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Illarion</h1>
+            <p>Documentação de Estrutura e Arquitetura do Projeto</p>
+            <p>Sistema de Build: Gradle 3.5 | Java 8 | Licença: AGPL v3</p>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="#visao-geral">Visão Geral</a></li>
+                <li><a href="#modulos">Módulos</a></li>
+                <li><a href="#arquitetura">Arquitetura</a></li>
+                <li><a href="#motor-jogo">Motor de Jogo</a></li>
+                <li><a href="#comunicacao">Comunicação</a></li>
+                <li><a href="#aplicacoes">Aplicações</a></li>
+                <li><a href="#build">Sistema de Build</a></li>
+                <li><a href="#tecnologias">Tecnologias</a></li>
+            </ul>
+        </nav>
+
+        <section id="visao-geral">
+            <h2>Visão Geral do Projeto</h2>
+            <p>
+                O <strong>Illarion</strong> é um jogo de RPG multiplayer online (MMORPG) desenvolvido e mantido pela 
+                <strong>Illarion e.V.</strong>, uma organização sem fins lucrativos. Este repositório contém todas as 
+                aplicações publicadas do projeto, incluindo o cliente do jogo, editores de NPC e missões, 
+                editor de mapas e utilitários de download/atualização.
+            </p>
+            
+            <div class="highlight-box info">
+                <strong>Nota:</strong> O projeto é desenvolvido voluntariamente por membros da comunidade Illarion. 
+                Contribuições são bem-vindas através de pull requests.
+            </div>
+
+            <h3>Objetivos do Projeto</h3>
+            <ul>
+                <li>Fornecer um cliente de jogo completo e funcional para os jogadores</li>
+                <li>Oferecer ferramentas de edição para criadores de conteúdo (NPCs, missões, mapas)</li>
+                <li>Manter um sistema de atualização simples e eficiente</li>
+                <li>Promover a modularidade e reutilização de código</li>
+            </ul>
+
+            <h3>Repositórios Relacionados</h3>
+            <ul>
+                <li><strong>Servidor:</strong> Código do servidor do jogo (não incluído neste repositório)</li>
+                <li><strong>Recursos:</strong> Pacotes de recursos (gráficos, sons, tabelas) distribuídos separadamente</li>
+                <li><strong>Site:</strong> https://illarion.org</li>
+            </ul>
+        </section>
+
+        <section id="modulos">
+            <h2>Estrutura de Módulos</h2>
+            <p>
+                O projeto é organizado em uma estrutura multi-módulo Gradle, onde cada módulo representa 
+                uma aplicação ou biblioteca específica. Esta organização promove a separação de responsabilidades 
+                e facilita a manutenção.
+            </p>
+
+            <div class="module-grid">
+                <!-- Core Modules -->
+                <div class="module-card">
+                    <span class="module-type library">Biblioteca</span>
+                    <h4>common</h4>
+                    <p>Biblioteca compartilhada com funcionalidades comuns a todas as aplicações.</p>
+                    <div class="dependencies">
+                        <strong>Depende de:</strong> Nenhuma<br>
+                        <strong>Pacote:</strong> illarion.common
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <span class="module-type library">Biblioteca</span>
+                    <h4>engine</h4>
+                    <p>Motor de jogo abstrato com interfaces e classes base independentes de plataforma.</p>
+                    <div class="dependencies">
+                        <strong>Depende de:</strong> common<br>
+                        <strong>Pacote:</strong> org.illarion.engine
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <span class="module-type library">Biblioteca</span>
+                    <h4>engine-libgdx</h4>
+                    <p>Implementação do motor de jogo usando libGDX/LWJGL3 para renderização gráfica.</p>
+                    <div class="dependencies">
+                        <strong>Depende de:</strong> engine<br>
+                        <strong>Backend:</strong> libGDX 1.13.1
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <span class="module-type library">Biblioteca</span>
+                    <h4>engine-nifty</h4>
+                    <p>Implementação do motor de jogo usando Nifty-GUI para interface gráfica.</p>
+                    <div class="dependencies">
+                        <strong>Depende de:</strong> common, engine<br>
+                        <strong>Backend:</strong> Nifty-GUI 1.4.2
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <span class="module-type library">Biblioteca</span>
+                    <h4>nifty-controls</h4>
+                    <p>Controles personalizados para a interface Nifty-GUI específicos do Illarion.</p>
+                    <div class="dependencies">
+                        <strong>Depende de:</strong> common<br>
+                        <strong>Framework:</strong> Nifty-GUI
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <span class="module-type library">Biblioteca</span>
+                    <h4>nifty-style</h4>
+                    <p>Estilos visuais personalizados para a interface Nifty-GUI do Illarion.</p>
+                    <div class="dependencies">
+                        <strong>Depende de:</strong> Nenhuma<br>
+                        <strong>Conteúdo:</strong> Recursos de estilo
+                    </div>
+                </div>
+
+                <!-- Applications -->
+                <div class="module-card">
+                    <span class="module-type application">Aplicação</span>
+                    <h4>client</h4>
+                    <p>Cliente principal do jogo Illarion - a aplicação que os jogadores utilizam.</p>
+                    <div class="dependencies">
+                        <strong>Depende de:</strong> common, engine, engine-libgdx, engine-nifty, nifty-controls<br>
+                        <strong>Main-Class:</strong> illarion.client.IllaClient
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <span class="module-type application">Aplicação</span>
+                    <h4>easynpc</h4>
+                    <p>Editor de NPCs (Non-Player Characters) para criação de diálogos e comportamentos.</p>
+                    <div class="dependencies">
+                        <strong>Depende de:</strong> common<br>
+                        <strong>Main-Class:</strong> illarion.easynpc.gui.MainFrame<br>
+                        <strong>Recursos:</strong> ANTLR4, RSyntaxTextArea
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <span class="module-type application">Aplicação</span>
+                    <h4>easyquest</h4>
+                    <p>Editor de missões (quests) para criação de objetivos e recompensas.</p>
+                    <div class="dependencies">
+                        <strong>Depende de:</strong> common<br>
+                        <strong>Main-Class:</strong> illarion.easyquest.gui.MainFrame<br>
+                        <strong>Recursos:</strong> JGraphX, Lua scripts
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <span class="module-type application">Aplicação</span>
+                    <h4>mapeditor</h4>
+                    <p>Editor de mapas para criação e modificação do mundo do jogo.</p>
+                    <div class="dependencies">
+                        <strong>Depende de:</strong> common, engine<br>
+                        <strong>Main-Class:</strong> illarion.mapedit.MapEditor<br>
+                        <strong>Recursos:</strong> Trove4j, VorbisSPI
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <span class="module-type application">Aplicação</span>
+                    <h4>download</h4>
+                    <p>Launcher e downloader para atualização automática das aplicações.</p>
+                    <div class="dependencies">
+                        <strong>Depende de:</strong> common<br>
+                        <strong>Main-Class:</strong> illarion.download.Application<br>
+                        <strong>Recursos:</strong> JavaFX, Install4j, Aether
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <span class="module-type application">Aplicação</span>
+                    <h4>compiler</h4>
+                    <p>Compilador de scripts Lua para o servidor Illarion.</p>
+                    <div class="dependencies">
+                        <strong>Depende de:</strong> common, easynpc, easyquest<br>
+                        <strong>Main-Class:</strong> illarion.compile.Compiler<br>
+                        <strong>Recursos:</strong> ProGuard, Commons CLI
+                    </div>
+                </div>
+
+                <!-- Utilities -->
+                <div class="module-card">
+                    <span class="module-type utility">Utilitário</span>
+                    <h4>build</h4>
+                    <p>Utilitários de build e scripts Gradle personalizados.</p>
+                    <div class="dependencies">
+                        <strong>Depende de:</strong> common<br>
+                        <strong>Conteúdo:</strong> Gradle API, Groovy
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="arquitetura">
+            <h2>Arquitetura do Sistema</h2>
+            
+            <h3>Visão Geral da Arquitetura</h3>
+            <p>
+                A arquitetura do projeto Illarion segue um design em camadas, com clara separação entre 
+                a lógica de jogo, renderização gráfica e interface com o usuário. O motor de jogo 
+                abstrai as dependências de plataforma, permitindo múltiplas implementações.
+            </p>
+
+            <div class="arch-diagram">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           CAMADA DE APLICAÇÃO                                 │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
+│  │   Client    │  │  easyNPC    │  │  easyQuest  │  │  MapEditor  │         │
+│  │  (Jogo)     │  │  (Editor)   │  │  (Editor)   │  │  (Editor)   │         │
+│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────────┘         │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                           CAMADA DE MOTOR                                    │
+│  ┌─────────────────────────────────────────────────────────────────────┐    │
+│  │                     Game Engine (Abstrato)                           │    │
+│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐            │    │
+│  │  │ Graphics │  │  Input   │  │  Sound   │  │  Assets  │            │    │
+│  │  └──────────┘  └──────────┘  └──────────┘  └──────────┘            │    │
+│  └─────────────────────────────────────────────────────────────────────┘    │
+│  ┌─────────────────────────┐  ┌─────────────────────────┐                  │
+│  │   Backend libGDX        │  │   Backend Nifty-GUI     │                  │
+│  │   (Renderização)        │  │   (Interface Gráfica)   │                  │
+│  └─────────────────────────┘  └─────────────────────────┘                  │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                           CAMADA COMUM                                      │
+│  ┌─────────────────────────────────────────────────────────────────────┐    │
+│  │                      Common Library                                  │    │
+│  │  Config | Network | Graphics | GUI | Memory | Types | Utils          │    │
+│  └─────────────────────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────────────────────┘
+            </div>
+
+            <h3>Padrões de Design Utilizados</h3>
+            <ul>
+                <li><strong>Singleton:</strong> Utilizado em classes como <code>IllaClient</code>, <code>World</code>, <code>ConfigSystem</code></li>
+                <li><strong>Factory:</strong> <code>EngineManager</code> para criação de instâncias do motor</li>
+                <li><strong>Observer:</strong> Sistema de eventos usando EventBus para comunicação entre componentes</li>
+                <li><strong>Strategy:</strong> Diferentes backends (libGDX, Nifty) implementam a mesma interface</li>
+                <li><strong>State Machine:</strong> Máquina de estados do jogo (<code>Game.STATE_*</code>)</li>
+                <li><strong>Command:</strong> Comandos de rede (<code>illarion.client.net.client.*Cmd</code>)</li>
+            </ul>
+
+            <h3>Fluxo de Dados</h3>
+            <ol>
+                <li><strong>Entrada:</strong> O jogador interage via teclado/mouse → <code>Input</code> captura</li>
+                <li><strong>Processamento:</strong> Lógica do jogo processa a entrada → <code>Game</code> atualiza estado</li>
+                <li><strong>Rede:</strong> Comandos enviados/recebidos → <code>Net</code> gerencia conexão</li>
+                <li><strong>Renderização:</strong> Estado atual é desenhado → <code>Graphics</code> renderiza</li>
+                <li><strong>Interface:</strong> Elementos de UI atualizados → <code>Nifty-GUI</code> exibe</li>
+            </ol>
+        </section>
+
+        <section id="motor-jogo">
+            <h2>Motor de Jogo (Game Engine)</h2>
+            
+            <h3>Componentes Principais</h3>
+            
+            <h4>Engine (Interface)</h4>
+            <p>
+                A interface <code>org.illarion.engine.Engine</code> define o contrato para acesso aos 
+                componentes principais do motor:
+            </p>
+            <ul>
+                <li><code>getGraphics()</code> - Acesso ao sistema de renderização</li>
+                <li><code>getInput()</code> - Acesso ao sistema de entrada (teclado/mouse)</li>
+                <li><code>getSounds()</code> - Acesso ao sistema de áudio</li>
+                <li><code>getAssets()</code> - Acesso ao gerenciador de recursos</li>
+            </ul>
+
+            <h4>Backend libGDX</h4>
+            <p>
+                Implementação principal de renderização usando libGDX com LWJGL3. Responsável por:
+            </p>
+            <ul>
+                <li>Renderização 2D de sprites e tiles</li>
+                <li>Gerenciamento de texturas e atlas</li>
+                <li>Efeitos gráficos (iluminação, névoa, highlight)</li>
+                <li>Gerenciamento de janela e resolução</li>
+                <li>Suporte a fullscreen e VSync</li>
+            </ul>
+
+            <h4>Backend Nifty-GUI</h4>
+            <p>
+                Implementação de interface gráfica usando Nifty-GUI. Responsável por:
+            </p>
+            <ul>
+                <li>Renderização de elementos de UI (janelas, botões, campos)</li>
+                <li>Gerenciamento de layouts e temas</li>
+                <li>Integração com o sistema de input</li>
+                <li>Suporte a controles personalizados</li>
+            </ul>
+
+            <h3>Gerenciamento de Recursos</h3>
+            <p>
+                O motor de jogo utiliza um sistema de carregamento assíncrono de recursos:
+            </p>
+            <ul>
+                <li><strong>TextureManager:</strong> Carregamento e cache de texturas</li>
+                <li><strong>SoundsManager:</strong> Carregamento de efeitos sonoros e música</li>
+                <li><strong>FontManager:</strong> Gerenciamento de fontes tipográficas</li>
+                <li><strong>EffectManager:</strong> Gerenciamento de efeitos gráficos</li>
+                <li><strong>CursorManager:</strong> Gerenciamento de cursores personalizados</li>
+            </ul>
+
+            <h3>Sistema de Estados do Jogo</h3>
+            <p>
+                O cliente do jogo utiliza uma máquina de estados para controlar o fluxo:
+            </p>
+            <ul>
+                <li><code>STATE_LOGIN</code> - Tela de login e autenticação</li>
+                <li><code>STATE_LOADING</code> - Carregamento de recursos</li>
+                <li><code>STATE_GAME</code> - Jogo principal (mundo, combate, etc.)</li>
+                <li><code>STATE_LOGOUT</code> - Processo de logout</li>
+                <li><code>STATE_ENDING</code> - Encerramento do cliente</li>
+            </ul>
+        </section>
+
+        <section id="comunicacao">
+            <h2>Comunicação com o Servidor</h2>
+            
+            <h3>Visão Geral do Sistema de Rede</h3>
+            <p>
+                O sistema de comunicação do cliente Illarion é responsável por toda a troca de dados entre 
+                o cliente e o servidor do jogo. Ele utiliza uma arquitetura baseada em threads com NIO 
+                (New I/O) para garantir comunicação eficiente e de baixa latência.
+            </p>
+
+            <div class="highlight-box info">
+                <strong>Protocolo:</strong> TCP com NIO (SocketChannel) | <strong>Encoding:</strong> ISO-8859-1 | 
+                <strong>KeepAlive:</strong> 500ms | <strong>Buffer:</strong> Dinâmico (mínimo 1000 bytes)
+            </div>
+
+            <h3>Arquitetura do Sistema de Rede</h3>
+            
+            <div class="arch-diagram">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        SISTEMA DE COMUNICAÇÃO                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌─────────────────────────────────────────────────────────────────────┐    │
+│  │                         NetComm (Gerenciador)                        │    │
+│  │  • Gerencia conexão socket                                           │    │
+│  │  • Coordena threads de envio/recepção                                │    │
+│  │  • Implementa KeepAlive automático                                   │    │
+│  └─────────────────────────────────────────────────────────────────────┘    │
+│                              │                                              │
+│              ┌───────────────┴───────────────┐                              │
+│              │                               │                              │
+│              ▼                               ▼                              │
+│  ┌─────────────────────┐        ┌─────────────────────┐                    │
+│  │      Sender         │        │     Receiver        │                    │
+│  │  (Thread de Envio)  │        │  (Thread de Recepção)│                   │
+│  │                     │        │                     │                    │
+│  │ • Codifica comandos │        │ • Decodifica msgs   │                    │
+│  │ • Calcula CRC       │        │ • Verifica CRC      │                    │
+│  │ • Envia via socket  │        │ • Valida header     │                    │
+│  └─────────────────────┘        └─────────────────────┘                    │
+│              │                               │                              │
+│              │                               ▼                              │
+│              │               ┌─────────────────────────┐                   │
+│              │               │   MessageExecutor       │                   │
+│              │               │  (Executor de Mensagens)│                   │
+│              │               │                         │                   │
+│              │               │ • Fila de execução      │                   │
+│              │               │ • Processa ServerReply  │                   │
+│              │               │ • Gerencia reschedule   │                   │
+│              │               └─────────────────────────┘                   │
+│              │                               │                              │
+│              │                               ▼                              │
+│              │               ┌─────────────────────────┐                   │
+│              │               │    ReplyFactory         │                   │
+│              │               │  (Factory de Respostas) │                   │
+│              │               │                         │                   │
+│              │               │ • Mapeia ID → Classe    │                   │
+│              │               │ • Cria instâncias       │                   │
+│              │               │ • 52 tipos de mensagens  │                   │
+│              │               └─────────────────────────┘                   │
+│              │                               │                              │
+│              └───────────────┬───────────────┘                              │
+│                              │                                              │
+│                              ▼                                              │
+│                  ┌───────────────────────┐                                  │
+│                  │   Socket TCP (NIO)    │                                  │
+│                  │   Servidor Illarion   │                                  │
+│                  └───────────────────────┘                                  │
+└─────────────────────────────────────────────────────────────────────────────┘
+            </div>
+
+            <h3>Componentes Principais</h3>
+
+            <h4>NetComm - Gerenciador Central</h4>
+            <p>
+                A classe <code>illarion.client.net.NetComm</code> é o ponto central de toda a comunicação. 
+                Ela gerencia o ciclo de vida da conexão, coordena as threads de envio e recepção, e 
+                implementa o sistema de KeepAlive automático.
+            </p>
+            <ul>
+                <li><strong>Conexão:</strong> Estabelece e gerencia o SocketChannel com o servidor</li>
+                <li><strong>Threads:</strong> Cria e coordena Sender, Receiver e MessageExecutor</li>
+                <li><strong>KeepAlive:</strong> Envia pacotes KeepAlive a cada 500ms para manter a conexão ativa</li>
+                <li><strong>Desconexão:</strong> Gerencia o desligamento gracioso de todas as threads</li>
+            </ul>
+
+            <h4>Receiver - Thread de Recepção</h4>
+            <p>
+                A classe <code>illarion.client.net.Receiver</code> é uma thread dedicada que recebe dados 
+                do servidor, decodifica as mensagens e as prepara para execução.
+            </p>
+            <ul>
+                <li><strong>Decodificação:</strong> Lê bytes do socket e converte em mensagens estruturadas</li>
+                <li><strong>Validação:</strong> Verifica CRC e estrutura do header para garantir integridade</li>
+                <li><strong>Buffer:</strong> Usa ByteBuffer dinâmico para otimizar memória</li>
+                <li><strong>Timeout:</strong> Descarta dados incompletos após 1 segundo sem recebimento</li>
+            </ul>
+
+            <h4>Sender - Thread de Envio</h4>
+            <p>
+                A classe <code>illarion.client.net.Sender</code> é responsável por codificar comandos do cliente 
+                e enviá-los ao servidor de forma assíncrona.
+            </p>
+            <ul>
+                <li><strong>Codificação:</strong> Converte comandos Java em bytes para transmissão</li>
+                <li><strong>CRC:</strong> Calcula checksum para verificação de integridade no servidor</li>
+                <li><strong>Fila:</strong> Usa ExecutorService para envio assíncrono</li>
+                <li><strong>Buffer:</strong> ByteBuffer direto de 1000 bytes para otimização</li>
+            </ul>
+
+            <h4>MessageExecutor - Processador de Mensagens</h4>
+            <p>
+                A classe <code>illarion.client.net.MessageExecutor</code> gerencia a execução das mensagens 
+                recebidas do servidor em uma thread separada.
+            </p>
+            <ul>
+                <li><strong>Fila de Execução:</strong> Executa mensagens sequencialmente em uma única thread</li>
+                <li><strong>Reschedule:</strong> Permite reagendar mensagens que não puderam ser processadas</li>
+                <li><strong>Tratamento de Erros:</strong> Captura e loga exceções durante a execução</li>
+            </ul>
+
+            <h4>ReplyFactory - Fábrica de Respostas</h4>
+            <p>
+                A classe <code>illarion.client.net.ReplyFactory</code> é um factory singleton que mapeia IDs de 
+                mensagens para suas respectivas classes decodificadoras.
+            </p>
+            <ul>
+                <li><strong>Registro:</strong> Registra 52 tipos diferentes de mensagens do servidor</li>
+                <li><strong>Instanciação:</strong> Cria instâncias sob demanda usando reflexão</li>
+                <li><strong>Anotações:</strong> Usa <code>@ReplyMessage</code> para mapear IDs automaticamente</li>
+            </ul>
+
+            <h3>Formato do Protocolo</h3>
+            
+            <h4>Estrutura do Pacote</h4>
+            <p>
+                Toda comunicação segue um formato de pacote específico com header fixo de 6 bytes:
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Campo</th>
+                        <th>Tamanho</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>ID</strong></td>
+                        <td>1 byte</td>
+                        <td>Identificador do comando/mensagem</td>
+                    </tr>
+                    <tr>
+                        <td><strong>XOR ID</strong></td>
+                        <td>1 byte</td>
+                        <td>ID XOR 0xFF para validação do header</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Length</strong></td>
+                        <td>2 bytes</td>
+                        <td>Tamanho dos dados em bytes (unsigned short)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CRC</strong></td>
+                        <td>2 bytes</td>
+                        <td>Checksum para verificação de integridade</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data</strong></td>
+                        <td>Length bytes</td>
+                        <td>Dados específicos do comando/mensagem</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Validação de Integridade</h4>
+            <ul>
+                <li><strong>XOR Check:</strong> O segundo byte deve ser igual ao primeiro XOR 0xFF</li>
+                <li><strong>CRC Check:</strong> Checksum calculado sobre os dados deve corresponder ao CRC do header</li>
+                <li><strong>Timeout:</strong> Dados incompletos são descartados após 1 segundo</li>
+            </ul>
+
+            <h3>Comandos do Cliente → Servidor</h3>
+            <p>
+                O cliente envia comandos ao servidor usando classes que estendem <code>AbstractCommand</code>. 
+                Cada comando possui um ID único e parâmetros específicos codificados em bytes.
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Comando</th>
+                        <th>ID</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>LoginCmd</td>
+                        <td>0x0D</td>
+                        <td>Autenticação do jogador</td>
+                    </tr>
+                    <tr>
+                        <td>LogoutCmd</td>
+                        <td>0xF1</td>
+                        <td>Desconexão do jogador</td>
+                    </tr>
+                    <tr>
+                        <td>MoveCmd</td>
+                        <td>0x10</td>
+                        <td>Movimento do personagem</td>
+                    </tr>
+                    <tr>
+                        <td>TurnCmd</td>
+                        <td>0x11</td>
+                        <td>Rotação do personagem</td>
+                    </tr>
+                    <tr>
+                        <td>SayCmd</td>
+                        <td>0xF5</td>
+                        <td>Mensagem de chat normal</td>
+                    </tr>
+                    <tr>
+                        <td>ShoutCmd</td>
+                        <td>0xF4</td>
+                        <td>Mensagem de chat gritada</td>
+                    </tr>
+                    <tr>
+                        <td>WhisperCmd</td>
+                        <td>0xF3</td>
+                        <td>Mensagem privada</td>
+                    </tr>
+                    <tr>
+                        <td>UseCmd</td>
+                        <td>0xFE</td>
+                        <td>Uso de item/habilidade</td>
+                    </tr>
+                    <tr>
+                        <td>AttackCmd</td>
+                        <td>0xFA</td>
+                        <td>Início de ataque</td>
+                    </tr>
+                    <tr>
+                        <td>StandDownCmd</td>
+                        <td>0xDE</td>
+                        <td>Parar ataque</td>
+                    </tr>
+                    <tr>
+                        <td>LookAtCharCmd</td>
+                        <td>0x18</td>
+                        <td>Olhar para personagem</td>
+                    </tr>
+                    <tr>
+                        <td>LookAtMapItemCmd</td>
+                        <td>0xFF</td>
+                        <td>Olhar para item no mapa</td>
+                    </tr>
+                    <tr>
+                        <td>PickUpItemCmd</td>
+                        <td>0xED</td>
+                        <td>Pegar item do chão</td>
+                    </tr>
+                    <tr>
+                        <td>DragInvInvCmd</td>
+                        <td>0xE3</td>
+                        <td>Mover item dentro do inventário</td>
+                    </tr>
+                    <tr>
+                        <td>OpenBagCmd</td>
+                        <td>0xEB</td>
+                        <td>Abrir mochila</td>
+                    </tr>
+                    <tr>
+                        <td>CraftItemCmd</td>
+                        <td>0x54</td>
+                        <td>Criar item (crafting)</td>
+                    </tr>
+                    <tr>
+                        <td>KeepAliveCmd</td>
+                        <td>0xD8</td>
+                        <td>Manter conexão ativa</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Mensagens do Servidor → Cliente</h3>
+            <p>
+                O servidor envia mensagens ao cliente usando 52 tipos diferentes de respostas, cada uma com 
+                sua própria classe decodificadora que implementa a interface <code>ServerReply</code>.
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mensagem</th>
+                        <th>ID</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>KeepAliveMsg</td>
+                        <td>0x00</td>
+                        <td>Resposta ao KeepAlive</td>
+                    </tr>
+                    <tr>
+                        <td>LocationMsg</td>
+                        <td>0xBD</td>
+                        <td>Atualização de posição do jogador</td>
+                    </tr>
+                    <tr>
+                        <td>AppearanceMsg</td>
+                        <td>0xE1</td>
+                        <td>Aparência de personagem</td>
+                    </tr>
+                    <tr>
+                        <td>MoveMsg</td>
+                        <td>0xDF</td>
+                        <td>Movimento de personagem</td>
+                    </tr>
+                    <tr>
+                        <td>TurnCharMsg</td>
+                        <td>0xE0</td>
+                        <td>Rotação de personagem</td>
+                    </tr>
+                    <tr>
+                        <td>SayMsg</td>
+                        <td>0xD7</td>
+                        <td>Mensagem de chat recebida</td>
+                    </tr>
+                    <tr>
+                        <td>ShoutMsg</td>
+                        <td>0xD6</td>
+                        <td>Mensagem gritada recebida</td>
+                    </tr>
+                    <tr>
+                        <td>WhisperMsg</td>
+                        <td>0xD5</td>
+                        <td>Mensagem privada recebida</td>
+                    </tr>
+                    <tr>
+                        <td>InformMsg</td>
+                        <td>0xD8</td>
+                        <td>Mensagem informativa</td>
+                    </tr>
+                    <tr>
+                        <td>IntroduceMsg</td>
+                        <td>0xD4</td>
+                        <td>Apresentação de personagem</td>
+                    </tr>
+                    <tr>
+                        <td>AttributeMsg</td>
+                        <td>0xB9</td>
+                        <td>Atributos do personagem</td>
+                    </tr>
+                    <tr>
+                        <td>SkillMsg</td>
+                        <td>0xD1</td>
+                        <td>Habilidades do personagem</td>
+                    </tr>
+                    <tr>
+                        <td>CarryLoadMsg</td>
+                        <td>0xB0</td>
+                        <td>Carga do inventário</td>
+                    </tr>
+                    <tr>
+                        <td>MagicFlagMsg</td>
+                        <td>0xB8</td>
+                        <td>Flags de magia</td>
+                    </tr>
+                    <tr>
+                        <td>InventoryMsg</td>
+                        <td>0xC1</td>
+                        <td>Conteúdo do inventário</td>
+                    </tr>
+                    <tr>
+                        <td>ShowcaseMsg</td>
+                        <td>0xC5</td>
+                        <td>Conteúdo de showcase</td>
+                    </tr>
+                    <tr>
+                        <td>MapStripeMsg</td>
+                        <td>0xA1</td>
+                        <td>Faixa do mapa (tiles)</td>
+                    </tr>
+                    <tr>
+                        <td>MapCompleteMsg</td>
+                        <td>0xA2</td>
+                        <td>Mapa completo carregado</td>
+                    </tr>
+                    <tr>
+                        <td>MusicMsg</td>
+                        <td>0xC8</td>
+                        <td>Música de fundo</td>
+                    </tr>
+                    <tr>
+                        <td>SoundEffectMsg</td>
+                        <td>0xC7</td>
+                        <td>Efeito sonoro</td>
+                    </tr>
+                    <tr>
+                        <td>WeatherMsg</td>
+                        <td>0xB7</td>
+                        <td>Clima atual</td>
+                    </tr>
+                    <tr>
+                        <td>DateTimeMsg</td>
+                        <td>0xB6</td>
+                        <td>Data e hora do jogo</td>
+                    </tr>
+                    <tr>
+                        <td>QuestMsg</td>
+                        <td>0x40</td>
+                        <td>Informação de missão</td>
+                    </tr>
+                    <tr>
+                        <td>DialogInputMsg</td>
+                        <td>0x50</td>
+                        <td>Diálogo de entrada de texto</td>
+                    </tr>
+                    <tr>
+                        <td>DialogSelectionMsg</td>
+                        <td>0x53</td>
+                        <td>Diálogo de seleção</td>
+                    </tr>
+                    <tr>
+                        <td>DialogMerchantMsg</td>
+                        <td>0x52</td>
+                        <td>Diálogo de comércio</td>
+                    </tr>
+                    <tr>
+                        <td>DisconnectMsg</td>
+                        <td>0xCC</td>
+                        <td>Notificação de desconexão</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Fluxo de Comunicação</h3>
+
+            <h4>Envio de Comando (Cliente → Servidor)</h4>
+            <ol>
+                <li><strong>Criação:</strong> O cliente cria uma instância do comando (ex: <code>MoveCmd</code>)</li>
+                <li><strong>Envio:</strong> <code>NetComm.sendCommand(cmd)</code> é chamado</li>
+                <li><strong>Fila:</strong> O comando é adicionado à fila do <code>Sender</code></li>
+                <li><strong>Codificação:</strong> <code>Sender.encodeCommand()</code> converte o comando em bytes</li>
+                <li><strong>CRC:</strong> Checksum é calculado e adicionado ao header</li>
+                <li><strong>Transmissão:</strong> Bytes são enviados via <code>SocketChannel</code></li>
+            </ol>
+
+            <h4>Recebimento de Mensagem (Servidor → Cliente)</h4>
+            <ol>
+                <li><strong>Leitura:</strong> <code>Receiver</code> lê bytes do socket para o buffer</li>
+                <li><strong>Validação:</strong> Header é verificado (XOR ID, Length, CRC)</li>
+                <li><strong>Decodificação:</strong> <code>ReplyFactory.getReply(id)</code> cria a instância apropriada</li>
+                <li><strong>Parsing:</strong> <code>ServerReply.decode(reader)</code> extrai os dados</li>
+                <li><strong>Fila:</strong> Mensagem é adicionada ao <code>MessageExecutor</code></li>
+                <li><strong>Execução:</strong> <code>ServerReply.execute()</code> processa a mensagem</li>
+            </ol>
+
+            <h3>Tratamento de Erros</h3>
+            <ul>
+                <li><strong>Conexão Perdida:</strong> <code>IllaClient.sendDisconnectEvent()</code> é chamado com opção de reconexão</li>
+                <li><strong>CRC Inválido:</strong> Pacote é descartado e logado como warning</li>
+                <li><strong>ID Desconhecido:</strong> Mensagem é ignorada e logada como erro</li>
+                <li><strong>Timeout:</strong> Dados incompletos são descartados após 1 segundo</li>
+                <li><strong>Exceção:</strong> Erros são logados e a mensagem pode ser reagendada</li>
+            </ul>
+
+            <h3>Servidores Disponíveis</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Servidor</th>
+                        <th>Host</th>
+                        <th>Porta</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Illarionserver</td>
+                        <td>realserver</td>
+                        <td>-</td>
+                        <td>Servidor de produção oficial</td>
+                    </tr>
+                    <tr>
+                        <td>Devserver</td>
+                        <td>devserver</td>
+                        <td>-</td>
+                        <td>Servidor de desenvolvimento/testes</td>
+                    </tr>
+                    <tr>
+                        <td>Localserver</td>
+                        <td>localserver</td>
+                        <td>-</td>
+                        <td>Servidor local para testes</td>
+                    </tr>
+                    <tr>
+                        <td>Customserver</td>
+                        <td>Configurável</td>
+                        <td>Configurável</td>
+                        <td>Servidor personalizado</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box success">
+                <strong>Dica de Desenvolvimento:</strong> Para depurar a comunicação de rede, ative o modo TRACE 
+                no logger para ver o dump completo dos pacotes enviados e recebidos usando 
+                <code>NetComm.dump()</code>.
+            </div>
+        </section>
+
+        <section id="aplicacoes">
+            <h2>Aplicações</h2>
+
+            <h3>Cliente do Jogo (illaclient)</h3>
+            <p>
+                O cliente principal é a aplicação mais complexa, responsável por:
+            </p>
+            <ul>
+                <li>Conexão com o servidor do jogo</li>
+                <li>Renderização do mundo 2D</li>
+                <li>Interface completa do jogador (inventário, chat, habilidades)</li>
+                <li>Sistema de áudio (música e efeitos sonoros)</li>
+                <li>Comunicação em tempo real com o servidor</li>
+                <li>Sistema de crash report e logs</li>
+            </ul>
+
+            <h4>Estrutura de Pacotes do Cliente</h4>
+            <ul>
+                <li><code>illarion.client</code> - Classes principais (IllaClient, Game, Login)</li>
+                <li><code>illarion.client.world</code> - Lógica do mundo do jogo</li>
+                <li><code>illarion.client.net</code> - Comunicação de rede</li>
+                <li><code>illarion.client.graphics</code> - Renderização gráfica</li>
+                <li><code>illarion.client.gui</code> - Interface gráfica</li>
+                <li><code>illarion.client.input</code> - Processamento de entrada</li>
+                <li><code>illarion.client.states</code> - Máquina de estados</li>
+                <li><code>illarion.client.resources</code> - Gerenciamento de recursos</li>
+                <li><code>illarion.client.util</code> - Utilitários</li>
+            </ul>
+
+            <h3>Editor de NPCs (illaeasynpc)</h3>
+            <p>
+                Ferramenta visual para criação de NPCs com:
+            </p>
+            <ul>
+                <li>Editor de diálogos com syntax highlighting</li>
+                <li>Definição de comportamentos e scripts</li>
+                <li>Integração com o compilador Lua</li>
+                <li>Interface baseada em Swing com Substance Look and Feel</li>
+            </ul>
+
+            <h3>Editor de Missões (illaeasyquest)</h3>
+            <p>
+                Ferramenta para criação e edição de missões:
+            </p>
+            <ul>
+                <li>Editor visual de objetivos e recompensas</li>
+                <li>Suporte a scripts Lua para lógica personalizada</li>
+                <li>Integração com o sistema de condições e handlers</li>
+                <li>Interface gráfica intuitiva</li>
+            </ul>
+
+            <h3>Editor de Mapas (illamapedit)</h3>
+            <p>
+                Ferramenta para criação e edição de mapas:
+            </p>
+            <ul>
+                <li>Edição visual de tiles e objetos</li>
+                <li>Suporte a múltiplas camadas</li>
+                <li>Ferramentas de pintura e seleção</li>
+                <li>Integração com o formato de mapa do Illarion</li>
+            </ul>
+
+            <h3>Launcher/Downloader (illadownload)</h3>
+            <p>
+                Aplicativo para download e atualização:
+            </p>
+            <ul>
+                <li>Verificação de versões e atualizações</li>
+                <li>Download de recursos do jogo</li>
+                <li>Interface JavaFX moderna</li>
+                <li>Suporte a instalação via Install4j</li>
+            </ul>
+
+            <h3>Compilador (illacompiler)</h3>
+            <p>
+                Ferramenta de compilação de scripts:
+            </p>
+            <ul>
+                <li>Compilação de scripts Lua para o servidor</li>
+                <li>Empacotamento de recursos</li>
+                <li>Otimização com ProGuard</li>
+                <li>Geração de arquivos distribuíveis</li>
+            </ul>
+        </section>
+
+        <section id="build">
+            <h2>Sistema de Build</h2>
+
+            <h3>Gradle</h3>
+            <p>
+                O projeto utiliza Gradle 3.5 com o Gradle Wrapper para builds consistentes:
+            </p>
+            <ul>
+                <li><code>gradlew build</code> - Compila todos os módulos</li>
+                <li><code>gradlew test</code> - Executa testes unitários</li>
+                <li><code>gradlew publish</code> - Publica artefatos no repositório Maven</li>
+                <li><code>gradlew clean</code> - Limpa artefatos de build</li>
+            </ul>
+
+            <h3>Configuração de Versões</h3>
+            <p>
+                O arquivo <code>versions.gradle</code> centraliza as versões das dependências:
+            </p>
+            <ul>
+                <li><strong>slf4j:</strong> 1.7.25</li>
+                <li><strong>logback:</strong> 1.2.2</li>
+                <li><strong>janino:</strong> 3.0.7</li>
+                <li><strong>nifty-gui:</strong> 1.4.2</li>
+                <li><strong>insubstantial:</strong> 7.3</li>
+                <li><strong>illarion resources:</strong> [2.0, )</li>
+            </ul>
+
+            <h3>Versionamento com Git</h3>
+            <p>
+                O sistema de build utiliza Git para versionamento automático:
+            </p>
+            <ul>
+                <li>Versões são derivadas de tags Git</li>
+                <li>Branch <code>master</code> gera versões de release</li>
+                <li>Outras branches geram versões <code>-SNAPSHOT</code></li>
+                <li>Informações de build incluídas no manifesto JAR</li>
+            </ul>
+
+            <h3>Qualidade de Código</h3>
+            <p>
+                O projeto utiliza ferramentas de análise estática:
+            </p>
+            <ul>
+                <li><strong>FindBugs:</strong> Detecção de bugs potenciais</li>
+                <li><strong>PMD:</strong> Análise de código e padrões</li>
+                <li><strong>TestNG:</strong> Framework de testes unitários</li>
+                <li><strong>EasyMock/PowerMock:</strong> Framework de mocks para testes</li>
+            </ul>
+
+            <h3>Repositórios de Dependências</h3>
+            <ul>
+                <li>Maven Central</li>
+                <li>Repositório Maven Illarion (https://illarion.org/media/java/maven)</li>
+                <li>Sonatype OSS</li>
+                <li>EJ Technologies (para install4j)</li>
+            </ul>
+        </section>
+
+        <section id="tecnologias">
+            <h2>Tecnologias Utilizadas</h2>
+
+            <div class="tech-list">
+                <div class="tech-item">
+                    <strong>Java 8</strong>
+                    <span>Linguagem principal de desenvolvimento</span>
+                </div>
+                <div class="tech-item">
+                    <strong>Gradle 3.5</strong>
+                    <span>Sistema de build e gerenciamento de dependências</span>
+                </div>
+                <div class="tech-item">
+                    <strong>libGDX 1.13.1</strong>
+                    <span>Framework de renderização gráfica (backend principal)</span>
+                </div>
+                <div class="tech-item">
+                    <strong>LWJGL3</strong>
+                    <span>Backend de baixo nível para libGDX</span>
+                </div>
+                <div class="tech-item">
+                    <strong>Nifty-GUI 1.4.2</strong>
+                    <span>Framework de interface gráfica</span>
+                </div>
+                <div class="tech-item">
+                    <strong>SLF4J + Logback</strong>
+                    <span>Sistema de logging</span>
+                </div>
+                <div class="tech-item">
+                    <strong>EventBus</strong>
+                    <span>Sistema de eventos para comunicação entre componentes</span>
+                </div>
+                <div class="tech-item">
+                    <strong>Gson</strong>
+                    <span>Serialização/desserialização JSON</span>
+                </div>
+                <div class="tech-item">
+                    <strong>Guava</strong>
+                    <span>Biblioteca de utilitários Google</span>
+                </div>
+                <div class="tech-item">
+                    <strong>ANTLR4</strong>
+                    <span>Parser generator para gramáticas (easyNPC)</span>
+                </div>
+                <div class="tech-item">
+                    <strong>JavaFX</strong>
+                    <span>Interface gráfica do launcher</span>
+                </div>
+                <div class="tech-item">
+                    <strong>Install4j</strong>
+                    <span>Criação de instaladores multi-plataforma</span>
+                </div>
+                <div class="tech-item">
+                    <strong>ProGuard</strong>
+                    <span>Obfuscação e otimização de código</span>
+                </div>
+                <div class="tech-item">
+                    <strong>Trove4j</strong>
+                    <span>Coleções de alta performance para tipos primitivos</span>
+                </div>
+                <div class="tech-item">
+                    <strong>JGraphX</strong>
+                    <span>Visualização de grafos (editor de missões)</span>
+                </div>
+                <div class="tech-item">
+                    <strong>Substance</strong>
+                    <span>Look and Feel para aplicações Swing</span>
+                </div>
+                <div class="tech-item">
+                    <strong>TestNG</strong>
+                    <span>Framework de testes unitários</span>
+                </div>
+                <div class="tech-item">
+                    <strong>EasyMock</strong>
+                    <span>Framework de mocks para testes</span>
+                </div>
+                <div class="tech-item">
+                    <strong>PowerMock</strong>
+                    <span>Mocking estático e de construtores</span>
+                </div>
+            </div>
+
+            <h3>Requisitos de Sistema</h3>
+            <ul>
+                <li><strong>JDK:</strong> 8 ou superior</li>
+                <li><strong>Sistema Operacional:</strong> Windows, macOS ou Linux</li>
+                <li><strong>Memória:</strong> Mínimo 2GB RAM recomendado</li>
+                <li><strong>Placa de Vídeo:</strong> Suporte a OpenGL 2.0+</li>
+                <li><strong>Conexão:</strong> Conexão com internet para jogar</li>
+            </ul>
+        </section>
+
+        <section id="licenca">
+            <h2>Licença</h2>
+            <p>
+                O projeto Illarion é licenciado sob a <strong>GNU Affero General Public License v3 (AGPL v3)</strong>.
+            </p>
+            <p>
+                Isso significa que:
+            </p>
+            <ul>
+                <li>Você pode usar, modificar e distribuir o software</li>
+                <li>Modificações devem ser compartilhadas sob a mesma licença</li>
+                <li>Uso em rede (servidores) também exige compartilhamento do código fonte</li>
+                <li>O software é fornecido "como está", sem garantias</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>Documentação gerada para o projeto Illarion - https://illarion.org</p>
+            <p>Illarion e.V. - Organização sem fins lucrativos dedicada ao desenvolvimento do jogo Illarion</p>
+        </footer>
+    </div>
+</body>
+</html>

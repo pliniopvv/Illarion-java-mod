@@ -20,6 +20,7 @@ import ch.qos.logback.classic.util.ContextInitializer;
 import ch.qos.logback.core.joran.spi.JoranException;
 import ch.qos.logback.core.util.StatusPrinter;
 import illarion.client.crash.DefaultCrashHandler;
+import illarion.client.mod.MODLoader;
 import illarion.client.net.client.LogoutCmd;
 import illarion.client.resources.SongFactory;
 import illarion.client.resources.SoundFactory;
@@ -210,6 +211,14 @@ public final class IllaClient implements EventTopicSubscriber<ConfigChangedEvent
 
         // in case the server is now known, update the files if needed and
         // launch the client.
+        Thread t = new Thread() {
+            @Override
+            public void run() { 
+                MODLoader.start();
+            }
+        };
+        t.start();
+
 
         INSTANCE.init();
     }

@@ -1,0 +1,373 @@
+/* Illarion Project Documentation Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    background: linear-gradient(135deg, #1a5276 0%, #2980b9 100%);
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+nav {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+nav ul li a {
+    display: block;
+    padding: 10px 15px;
+    background: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+nav ul li a:hover {
+    background: #2980b9;
+}
+
+section {
+    background: white;
+    padding: 30px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+section h2 {
+    color: #1a5276;
+    border-bottom: 3px solid #3498db;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+section h3 {
+    color: #2980b9;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+section h4 {
+    color: #555;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+ul, ol {
+    margin-left: 25px;
+    margin-bottom: 15px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.module-card {
+    background: #f8f9fa;
+    border-left: 4px solid #3498db;
+    padding: 20px;
+    border-radius: 4px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.module-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.module-card h4 {
+    color: #1a5276;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.module-card .module-type {
+    display: inline-block;
+    background: #3498db;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    margin-bottom: 10px;
+}
+
+.module-card .module-type.library {
+    background: #27ae60;
+}
+
+.module-card .module-type.application {
+    background: #e74c3c;
+}
+
+.module-card .module-type.utility {
+    background: #f39c12;
+}
+
+.module-card p {
+    font-size: 0.95em;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.module-card .dependencies {
+    font-size: 0.85em;
+    color: #888;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.module-card .dependencies strong {
+    color: #555;
+}
+
+.arch-diagram {
+    background: #f8f9fa;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    white-space: pre;
+    overflow-x: auto;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+.arch-diagram .layer {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.arch-diagram .layer.client {
+    background: #e8f6f3;
+    border: 1px solid #1abc9c;
+}
+
+.arch-diagram .layer.engine {
+    background: #eaf2f8;
+    border: 1px solid #3498db;
+}
+
+.arch-diagram .layer.backend {
+    background: #fdf2e9;
+    border: 1px solid #e67e22;
+}
+
+.arch-diagram .layer.common {
+    background: #f5eef8;
+    border: 1px solid #9b59b6;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background: #3498db;
+    color: white;
+}
+
+table tr:hover {
+    background: #f5f5f5;
+}
+
+.tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.tech-item {
+    background: #ecf0f1;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.tech-item strong {
+    display: block;
+    color: #1a5276;
+    margin-bottom: 5px;
+}
+
+.tech-item span {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.highlight-box {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+
+.highlight-box.info {
+    background: #d1ecf1;
+    border-left-color: #17a2b8;
+}
+
+.highlight-box.success {
+    background: #d4edda;
+    border-left-color: #28a745;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-size: 0.9em;
+}
+
+.badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.badge.java {
+    background: #f89820;
+    color: white;
+}
+
+.badge.gradle {
+    background: #02303a;
+    color: white;
+}
+
+.badge.libgdx {
+    background: #e74c3c;
+    color: white;
+}
+
+.badge.nifty {
+    background: #27ae60;
+    color: white;
+}
+
+/* Communication Section Styles */
+#comunicacao table {
+    font-size: 0.9em;
+}
+
+#comunicacao table code {
+    background: #f4f4f4;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
+#comunicacao .arch-diagram {
+    font-size: 0.85em;
+}
+
+#comunicacao .arch-diagram .layer {
+    margin: 8px 0;
+    padding: 8px;
+}
+
+#comunicacao h4 {
+    color: #1a5276;
+    border-left: 4px solid #3498db;
+    padding-left: 10px;
+    margin-top: 25px;
+}
+
+#comunicacao ol li {
+    margin-bottom: 10px;
+}
+
+#comunicacao ol li strong {
+    color: #2980b9;
+}
+
+@media (max-width: 768px) {
+    .module-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    nav ul {
+        flex-direction: column;
+    }
+    
+    header h1 {
+        font-size: 1.8em;
+    }
+    
+    #comunicacao .arch-diagram {
+        font-size: 0.75em;
+    }
+    
+    #comunicacao table {
+        font-size: 0.8em;
+    }
+}
